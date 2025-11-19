@@ -11,6 +11,7 @@ public class Diagnostico {
     private String descripcionTecnica;
     private String explicacionPaciente;
     private String estado;
+    private String pacienteId;
 
     public Diagnostico() {}
     
@@ -40,5 +41,13 @@ public class Diagnostico {
     @Override
     public String toString() {
         return "Diagnóstico: " + descripcion;
+    }
+
+    public String getPacienteId() {
+        return pacienteId;
+    }
+
+    public void setPacienteId(String pacienteId) {
+        this.pacienteId = pacienteId;
     }
 }

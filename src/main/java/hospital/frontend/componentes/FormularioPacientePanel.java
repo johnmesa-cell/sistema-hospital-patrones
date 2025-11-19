@@ -59,7 +59,7 @@ public class FormularioPacientePanel extends JPanel {
             return;
         }
 
-        Paciente p = new Paciente(id, nombre, identificacion, fechaNacimiento);
+        Paciente p = new Paciente();
         modeloPacientes.addElement(p);
         limpiarCampos();
     }

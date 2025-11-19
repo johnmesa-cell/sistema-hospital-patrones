@@ -4,6 +4,8 @@
  */
 package hospital.backend.historialclinico;
 
+import java.time.LocalDate;
+
 public class Tratamiento {
     private String idTratamiento;
     private String descripcion;
@@ -67,5 +69,11 @@ public class Tratamiento {
 
     public String getEstado() {
         return estado;
+    }
+
+    public void setFechaInicio(LocalDate fechaInicio) {
+    }
+
+    public void setFechaFin(LocalDate fechaFin) {
     }
 }

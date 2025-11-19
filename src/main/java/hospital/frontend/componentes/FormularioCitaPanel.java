@@ -5,6 +5,7 @@ import hospital.backend.servicios.CitaDAO;
 
 import javax.swing.*;
 import java.awt.*;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class FormularioCitaPanel extends JPanel {
@@ -58,7 +59,7 @@ public class FormularioCitaPanel extends JPanel {
         Cita c = new Cita();
         c.setIdCita(txtId.getText().trim());
         c.setIdPaciente(txtPacienteId.getText().trim());
-        c.setFechaHora(txtFecha.getText().trim());
+        c.setFechaHora(LocalDateTime.parse(txtFecha.getText().trim()));
         c.setIdMedico(txtMedico.getText().trim());
         c.setEstado(txtEstado.getText().trim());
 

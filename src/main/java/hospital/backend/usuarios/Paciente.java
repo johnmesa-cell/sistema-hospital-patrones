@@ -4,19 +4,19 @@
  */
 package hospital.backend.usuarios;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 public class Paciente {
     private String idPaciente;
     private int identificacion;
     private String idUsuario;
-    private Date fechaNacimiento;
+    private LocalDate fechaNacimiento;
     private String sexo;
     private Usuario usuario;
 
-    public Paciente(String id, String nombre, String identificacion, String fechaNacimiento) {}
+    public Paciente() {}
     
-    public Paciente(String idPaciente, String idUsuario, Date fechaNacimiento, String sexo) {
+    public Paciente(String idPaciente, String idUsuario, LocalDate fechaNacimiento, String sexo) {
         this.idPaciente = idPaciente;
         this.identificacion = identificacion;
         this.idUsuario = idUsuario;
@@ -30,8 +30,8 @@ public class Paciente {
     public String getIdUsuario() { return idUsuario; }
     public void setIdUsuario(String idUsuario) { this.idUsuario = idUsuario; }
     
-    public Date getFechaNacimiento() { return fechaNacimiento; }
-    public void setFechaNacimiento(Date fechaNacimiento) { this.fechaNacimiento = fechaNacimiento; }
+    public LocalDate getFechaNacimiento() { return fechaNacimiento; }
+    public void setFechaNacimiento(LocalDate fechaNacimiento) { this.fechaNacimiento = fechaNacimiento; }
     
     public String getSexo() { return sexo; }
     public void setSexo(String sexo) { this.sexo = sexo; }
