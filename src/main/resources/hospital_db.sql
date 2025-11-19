@@ -51,6 +51,24 @@ CREATE TABLE cita (
     FOREIGN KEY (id_paciente) REFERENCES paciente(id_paciente) ON DELETE CASCADE
 );
 
+CREATE TABLE IF NOT EXISTS historial_clinico (
+    id_historial VARCHAR(50) PRIMARY KEY,
+    id_paciente VARCHAR(50) NOT NULL,
+    fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    fecha_ultima_actualizacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (id_paciente) REFERENCES paciente(id_paciente)
+);
+
+CREATE TABLE IF NOT EXISTS nota_medica (
+    id_nota VARCHAR(50) PRIMARY KEY,
+    id_paciente VARCHAR(50) NOT NULL,
+    id_medico VARCHAR(50),
+    contenido TEXT,
+    fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (id_paciente) REFERENCES paciente(id_paciente)
+);
+
+
 -- Índices para mejorar búsqueda
 CREATE INDEX idx_usuario_tipo ON usuario(tipo);
 CREATE INDEX idx_diagnostico_paciente ON diagnostico(id_paciente);
