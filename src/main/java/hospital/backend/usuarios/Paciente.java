@@ -8,15 +8,17 @@ import java.util.Date;
 
 public class Paciente {
     private String idPaciente;
+    private int identificacion;
     private String idUsuario;
     private Date fechaNacimiento;
     private String sexo;
     private Usuario usuario;
 
-    public Paciente() {}
+    public Paciente(String id, String nombre, String identificacion, String fechaNacimiento) {}
     
     public Paciente(String idPaciente, String idUsuario, Date fechaNacimiento, String sexo) {
         this.idPaciente = idPaciente;
+        this.identificacion = identificacion;
         this.idUsuario = idUsuario;
         this.fechaNacimiento = fechaNacimiento;
         this.sexo = sexo;

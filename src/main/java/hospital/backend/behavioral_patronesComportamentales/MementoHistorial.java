@@ -4,7 +4,7 @@
  */
 package hospital.backend.behavioral_patronesComportamentales;
 
-import hospital.historialclinico.HistorialClinico;
+import hospital.backend.historialclinico.HistorialClinico;
 import java.util.Date;
 
 public class MementoHistorial {

@@ -45,7 +45,10 @@ public class Cita {
     public void setIdPaciente(String idPaciente) { this.idPaciente = idPaciente; }
 
     public String getIdMedico() { return idMedico; }
-    public void setIdMedico(String idMedico) { this.idMedico = idMedico; }
+
+    public void setIdMedico(String idMedico) {
+
+    }
 
     public Date getFechaHora() { return fechaHora; }
     public void setFechaHora(Date fechaHora) {
@@ -137,5 +140,8 @@ public class Cita {
     public String toString() {
         return "Cita: " + (fechaHora != null ? fechaHora.toString() : "Sin fecha") +
                 " - " + motivo + " - " + estado;
+    }
+
+    public void setFechaHora(String trim) {
     }
 }
