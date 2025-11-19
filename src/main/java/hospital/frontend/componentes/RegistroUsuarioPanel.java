@@ -2,11 +2,13 @@ package hospital.frontend.componentes;
 
 import hospital.backend.servicios.UsuarioService;
 import hospital.backend.usuarios.Usuario;
+import hospital.backend.util.SeguridadUtil; // <--- NUEVO import para el hash
 
 import javax.swing.*;
 import java.awt.*;
 
 public class RegistroUsuarioPanel extends JPanel {
+
     private JTextField txtIdUsuario, txtNombre, txtEmail, txtTipo;
     private JPasswordField txtContrasena;
     private JButton btnRegistrar, btnVolver;
@@ -16,6 +18,7 @@ public class RegistroUsuarioPanel extends JPanel {
     public RegistroUsuarioPanel(UsuarioService usuarioService, VentanaPrincipal ventanaPrincipal) {
         this.usuarioService = usuarioService;
         this.ventanaPrincipal = ventanaPrincipal;
+
         setLayout(new GridLayout(6, 2, 10, 10));
 
         add(new JLabel("ID usuario:"));
@@ -52,18 +55,24 @@ public class RegistroUsuarioPanel extends JPanel {
         String nombre = txtNombre.getText().trim();
         String email = txtEmail.getText().trim();
         String tipo = txtTipo.getText().trim().toLowerCase();
-        String contrasena = new String(txtContrasena.getPassword());
+        String contrasenaPlano = new String(txtContrasena.getPassword()).trim();
 
-        if (idUsuario.isEmpty() || nombre.isEmpty() || email.isEmpty() || tipo.isEmpty() || contrasena.isEmpty()) {
+        if (idUsuario.isEmpty() || nombre.isEmpty() || email.isEmpty() || tipo.isEmpty() || contrasenaPlano.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Todos los campos son obligatorios.");
             return;
         }
+
         if (!(tipo.equals("medico") || tipo.equals("paciente") || tipo.equals("administrador"))) {
             JOptionPane.showMessageDialog(this, "El tipo debe ser 'medico', 'paciente' o 'administrador'.");
             return;
         }
 
-        Usuario nuevoUsuario = new Usuario(idUsuario, nombre, email, tipo, contrasena);
+        // ======= CAMBIO IMPORTANTE: hashear la contraseña antes de crear el Usuario =======
+        String contrasenaHasheada = SeguridadUtil.hashPassword(contrasenaPlano);
+
+        Usuario nuevoUsuario = new Usuario(idUsuario, nombre, email, tipo, contrasenaHasheada);
+        // ==================================================================================
+
         usuarioService.agregarUsuario(nuevoUsuario);
 
         JOptionPane.showMessageDialog(this, "Usuario registrado exitosamente.");
@@ -79,4 +88,5 @@ public class RegistroUsuarioPanel extends JPanel {
         txtContrasena.setText("");
     }
 }
+
 

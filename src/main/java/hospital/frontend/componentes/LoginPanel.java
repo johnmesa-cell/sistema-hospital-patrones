@@ -1,21 +1,25 @@
 package hospital.frontend.componentes;
 
-import hospital.frontend.servicios.AutenticacionService;
-import hospital.backend.usuarios.Usuario;
+import hospital.frontend.servicios.AutenticacionService;  // NUEVO: usamos el servicio de autenticación
+import hospital.backend.usuarios.Usuario;               // Para recibir el usuario autenticado
 
 import javax.swing.*;
 import java.awt.*;
 
 public class LoginPanel extends JPanel {
+
     private JTextField txtUsuario;
     private JPasswordField txtContrasena;
-    private JButton btnIngresar, btnRegistrar;
-    private AutenticacionService authService;
-    private VentanaPrincipal ventanaPrincipal;
+    private JButton btnIngresar;
+    private JButton btnRegistrar;
 
-    public LoginPanel(AutenticacionService authService, VentanaPrincipal ventanaPrincipal) {
-        this.authService = authService;
-        this.ventanaPrincipal = ventanaPrincipal;
+    // Referencias a la lógica de negocio y a la ventana principal
+    private final AutenticacionService autenticacionService; // NUEVO: se inyecta el servicio
+    private final VentanaPrincipal ventanaPrincipal;
+
+    public LoginPanel(AutenticacionService autenticacionService, VentanaPrincipal ventanaPrincipal) {
+        this.autenticacionService = autenticacionService;   // guardamos la referencia del servicio
+        this.ventanaPrincipal = ventanaPrincipal;           // para poder cambiar de vista o abrir registro
 
         setLayout(new GridLayout(3, 2, 10, 10));
 
@@ -32,21 +36,41 @@ public class LoginPanel extends JPanel {
         add(btnIngresar);
         add(btnRegistrar);
 
+        // Acción de login: delega en el método privado autenticar()
         btnIngresar.addActionListener(e -> autenticar());
+
+        // Acción para ir a la pantalla de registro
         btnRegistrar.addActionListener(e -> ventanaPrincipal.mostrarRegistro());
     }
 
+    /**
+     * Toma usuario y contraseña desde los campos de texto,
+     * llama a AutenticacionService (que internamente hace el hash y compara)
+     * y, si es correcto, redirige según el rol del usuario.
+     */
     private void autenticar() {
-        String usuario = txtUsuario.getText();
-        String contrasena = new String(txtContrasena.getPassword());
+        String nombreUsuario = txtUsuario.getText().trim();
+        String contrasena = new String(txtContrasena.getPassword()).trim();
 
-        Usuario usuarioAutenticado = authService.autenticar(usuario, contrasena);
+        if (nombreUsuario.isEmpty() || contrasena.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Debe ingresar usuario y contraseña.");
+            return;
+        }
+
+        // Aquí NO hacemos hash; lo hace AutenticacionService por dentro.
+        Usuario usuarioAutenticado = autenticacionService.autenticar(nombreUsuario, contrasena);
 
         if (usuarioAutenticado != null) {
-            JOptionPane.showMessageDialog(this, "Login exitoso");
-            ventanaPrincipal.cambiarVistaPorRol(usuarioAutenticado.getTipo());
+            JOptionPane.showMessageDialog(this, "Login exitoso.");
+
+            // Obtenemos el tipo/rol para decidir qué vista mostrar
+            String rol = usuarioAutenticado.getTipo().toLowerCase();
+
+            // VentanaPrincipal se encarga de cambiar el panel según el rol
+            ventanaPrincipal.cambiarVistaPorRol(rol);
         } else {
             JOptionPane.showMessageDialog(this, "Usuario o contraseña incorrectos.");
         }
     }
 }
+

@@ -1,9 +1,7 @@
 package hospital.frontend.componentes;
 
+import hospital.backend.servicios.*;
 import hospital.frontend.servicios.AutenticacionService;
-import hospital.backend.servicios.UsuarioService;
-import hospital.backend.servicios.UsuarioDAO;
-import hospital.backend.servicios.UsuarioDAOImpl;
 
 import javax.swing.*;
 
@@ -44,10 +42,17 @@ public class VentanaPrincipal extends JFrame {
 
     public void cambiarVistaPorRol(String rol) {
         if (panelActual != null) remove(panelActual);
+
         switch (rol.toLowerCase()) {
-            case "medico":
-                panelActual = new VistaMedicoPanel();
+            case "medico": {
+                DiagnosticoDAO diagDAO = new DiagnosticoDAOImpl();
+                TratamientoDAO tratDAO = new TratamientoDAOImpl();
+                CitaDAO citaDAO = new CitaDAOImpl();
+
+                // Usar SIEMPRE el constructor que recibe la ventana
+                panelActual = new VistaMedicoPanel(this, null, diagDAO, tratDAO, citaDAO);
                 break;
+            }
             case "paciente":
                 panelActual = new VistaPacientePanel();
                 break;
@@ -59,6 +64,7 @@ public class VentanaPrincipal extends JFrame {
                 mostrarLogin();
                 return;
         }
+
         add(panelActual);
         revalidate();
         repaint();
