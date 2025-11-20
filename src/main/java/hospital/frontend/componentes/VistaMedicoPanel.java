@@ -317,7 +317,3 @@ public class VistaMedicoPanel extends JPanel {
         modelo.setRowCount(0);
     }
 }
-
-
-
-

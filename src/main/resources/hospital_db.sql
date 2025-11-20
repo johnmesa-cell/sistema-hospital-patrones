@@ -51,6 +51,7 @@ CREATE TABLE cita (
     FOREIGN KEY (id_paciente) REFERENCES paciente(id_paciente) ON DELETE CASCADE
 );
 
+-- Tabla de histotial clinico
 CREATE TABLE IF NOT EXISTS historial_clinico (
     id_historial VARCHAR(50) PRIMARY KEY,
     id_paciente VARCHAR(50) NOT NULL,
