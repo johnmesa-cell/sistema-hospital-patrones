@@ -67,7 +67,8 @@ public class LoginPanel extends JPanel {
             String rol = usuarioAutenticado.getTipo().toLowerCase();
 
             // VentanaPrincipal se encarga de cambiar el panel según el rol
-            ventanaPrincipal.cambiarVistaPorRol(rol);
+            ventanaPrincipal.setUsuarioActual(usuarioAutenticado); // ← PRIMERO GUARDAR EL USUARIO
+            ventanaPrincipal.cambiarVistaPorRol(rol);              // ← LUEGO MOSTRAR EL PANEL
         } else {
             JOptionPane.showMessageDialog(this, "Usuario o contraseña incorrectos.");
         }

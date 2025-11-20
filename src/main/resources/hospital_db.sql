@@ -1,27 +1,34 @@
 CREATE DATABASE IF NOT EXISTS hospitaldb;
 USE hospitaldb;
 
+-- ========================================
 -- Tabla para usuarios (médicos, pacientes, administradores)
+-- ========================================
 CREATE TABLE usuario (
-    id_usuario VARCHAR(50) PRIMARY KEY,
+    id_usuario VARCHAR(50) PRIMARY KEY,  -- Para pacientes será la cédula
     nombre VARCHAR(100) NOT NULL,
     email VARCHAR(100) UNIQUE NOT NULL,
     tipo ENUM('medico', 'paciente', 'administrador') NOT NULL,
     contrasena VARCHAR(255) NOT NULL
 );
 
--- Tabla pacientes (puede estar relacionada al usuario también si quieres)
+-- ========================================
+-- Tabla pacientes
+-- ========================================
+-- id_paciente será LA CÉDULA (mismo valor que id_usuario para pacientes)
 CREATE TABLE paciente (
-    id_paciente VARCHAR(50) PRIMARY KEY,
-    id_usuario VARCHAR(50),
+    id_paciente VARCHAR(50) PRIMARY KEY,  -- Cédula
+    id_usuario VARCHAR(50) UNIQUE NOT NULL,
     fecha_nacimiento DATE,
-    FOREIGN KEY (id_usuario) REFERENCES usuario(id_usuario) ON DELETE SET NULL
+    FOREIGN KEY (id_usuario) REFERENCES usuario(id_usuario) ON DELETE CASCADE
 );
 
+-- ========================================
 -- Tabla diagnósticos
+-- ========================================
 CREATE TABLE diagnostico (
     id_diagnostico VARCHAR(50) PRIMARY KEY,
-    id_paciente VARCHAR(50),
+    id_paciente VARCHAR(50) NOT NULL,  -- Cédula del paciente
     descripcion TEXT,
     codigo_cie10 VARCHAR(20),
     descripcion_tecnica TEXT,
@@ -30,7 +37,9 @@ CREATE TABLE diagnostico (
     FOREIGN KEY (id_paciente) REFERENCES paciente(id_paciente) ON DELETE CASCADE
 );
 
+-- ========================================
 -- Tabla tratamientos
+-- ========================================
 CREATE TABLE tratamiento (
     id_tratamiento VARCHAR(50) PRIMARY KEY,
     id_diagnostico VARCHAR(50),
@@ -41,37 +50,50 @@ CREATE TABLE tratamiento (
     FOREIGN KEY (id_diagnostico) REFERENCES diagnostico(id_diagnostico) ON DELETE CASCADE
 );
 
+-- ========================================
 -- Tabla citas
+-- ========================================
 CREATE TABLE cita (
     id_cita VARCHAR(50) PRIMARY KEY,
-    id_paciente VARCHAR(50),
+    id_paciente VARCHAR(50) NOT NULL,  -- Cédula del paciente
     fecha DATETIME,
     medico VARCHAR(100),
     estado VARCHAR(50),
     FOREIGN KEY (id_paciente) REFERENCES paciente(id_paciente) ON DELETE CASCADE
 );
 
--- Tabla de histotial clinico
+-- ========================================
+-- Tabla historial clínico
+-- ========================================
 CREATE TABLE IF NOT EXISTS historial_clinico (
     id_historial VARCHAR(50) PRIMARY KEY,
-    id_paciente VARCHAR(50) NOT NULL,
+    id_paciente VARCHAR(50) NOT NULL,  -- Cédula del paciente
     fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     fecha_ultima_actualizacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    FOREIGN KEY (id_paciente) REFERENCES paciente(id_paciente)
+    FOREIGN KEY (id_paciente) REFERENCES paciente(id_paciente) ON DELETE CASCADE
 );
 
+-- ========================================
+-- Tabla notas médicas
+-- ========================================
 CREATE TABLE IF NOT EXISTS nota_medica (
     id_nota VARCHAR(50) PRIMARY KEY,
-    id_paciente VARCHAR(50) NOT NULL,
+    id_historial VARCHAR(50),
+    id_paciente VARCHAR(50) NOT NULL,  -- Cédula del paciente
     id_medico VARCHAR(50),
-    contenido TEXT,
+    tipo_nota VARCHAR(50),
+    contenido_medico TEXT,
+    contenido_paciente TEXT,
+    visible_para_paciente BOOLEAN DEFAULT TRUE,
     fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (id_paciente) REFERENCES paciente(id_paciente)
+    FOREIGN KEY (id_paciente) REFERENCES paciente(id_paciente) ON DELETE CASCADE,
+    FOREIGN KEY (id_historial) REFERENCES historial_clinico(id_historial) ON DELETE CASCADE
 );
-
 
 -- Índices para mejorar búsqueda
 CREATE INDEX idx_usuario_tipo ON usuario(tipo);
 CREATE INDEX idx_diagnostico_paciente ON diagnostico(id_paciente);
 CREATE INDEX idx_tratamiento_diagnostico ON tratamiento(id_diagnostico);
 CREATE INDEX idx_cita_paciente ON cita(id_paciente);
+CREATE INDEX idx_historial_paciente ON historial_clinico(id_paciente);
+CREATE INDEX idx_nota_paciente ON nota_medica(id_paciente);

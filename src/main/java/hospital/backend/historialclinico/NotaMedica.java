@@ -14,6 +14,8 @@ public class NotaMedica {
     private String contenidoPaciente;
     private boolean visibleParaPaciente;
     private Date fechaCreacion;
+    private String idPaciente;
+    private String idMedico;
 
     public NotaMedica() {
         this.fechaCreacion = new Date();
@@ -44,5 +46,21 @@ public class NotaMedica {
     @Override
     public String toString() {
         return tipoNota + ": " + (contenidoPaciente != null ? contenidoPaciente : contenidoMedico);
+    }
+
+    public String getIdPaciente() {
+        return idPaciente;
+    }
+
+    public void setIdPaciente(String idPaciente) {
+        this.idPaciente = idPaciente;
+    }
+
+    public String getIdMedico() {
+        return idMedico;
+    }
+
+    public void setIdMedico(String idMedico) {
+        this.idMedico = idMedico;
     }
 }

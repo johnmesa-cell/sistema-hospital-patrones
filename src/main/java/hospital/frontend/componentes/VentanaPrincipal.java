@@ -1,6 +1,7 @@
 package hospital.frontend.componentes;
 
 import hospital.backend.servicios.*;
+import hospital.backend.usuarios.Usuario;
 import hospital.frontend.servicios.AutenticacionService;
 
 import javax.swing.*;
@@ -8,6 +9,7 @@ import javax.swing.*;
 public class VentanaPrincipal extends JFrame {
     private AutenticacionService autenticacionService;
     private UsuarioService usuarioService;
+    private Usuario usuarioActual; // << Para guardar el usuario logueado
     private JPanel panelActual;
 
     public VentanaPrincipal() {
@@ -24,6 +26,20 @@ public class VentanaPrincipal extends JFrame {
         mostrarLogin();
     }
 
+    /**
+     * Permite guardar el usuario que acaba de iniciar sesión, para acceso en los paneles.
+     */
+    public void setUsuarioActual(Usuario usuario) {
+        this.usuarioActual = usuario;
+    }
+
+    public Usuario getUsuarioActual() {
+        return this.usuarioActual;
+    }
+
+    /**
+     * Muestra el panel de login.
+     */
     public void mostrarLogin() {
         if (panelActual != null) remove(panelActual);
         panelActual = new LoginPanel(autenticacionService, this);
@@ -32,6 +48,9 @@ public class VentanaPrincipal extends JFrame {
         repaint();
     }
 
+    /**
+     * Muestra el panel de registro de usuario.
+     */
     public void mostrarRegistro() {
         if (panelActual != null) remove(panelActual);
         panelActual = new RegistroUsuarioPanel(usuarioService, this);
@@ -40,25 +59,32 @@ public class VentanaPrincipal extends JFrame {
         repaint();
     }
 
+    /**
+     * Cambia la vista principal según el rol que acaba de iniciar sesión.
+     * El usuarioActual debe estar previamente establecido por LoginPanel.
+     */
     public void cambiarVistaPorRol(String rol) {
         if (panelActual != null) remove(panelActual);
 
         switch (rol.toLowerCase()) {
-            case "medico": {
+            case "medico":
                 DiagnosticoDAO diagDAO = new DiagnosticoDAOImpl();
                 TratamientoDAO tratDAO = new TratamientoDAOImpl();
-                CitaDAO citaDAO = new CitaDAOImpl();
+                CitaDAO citaDAO = new CitaDAOImpl(); // Si existe tu CitaDAO
+                panelActual = new VistaMedicoPanel(this, usuarioActual, diagDAO, tratDAO, citaDAO);
+                break;
 
-                // Usar SIEMPRE el constructor que recibe la ventana
-                panelActual = new VistaMedicoPanel(this, null, diagDAO, tratDAO, citaDAO);
-                break;
-            }
             case "paciente":
-                panelActual = new VistaPacientePanel();
+                DiagnosticoDAO dDao = new DiagnosticoDAOImpl();
+                TratamientoDAO tDao = new TratamientoDAOImpl();
+                NotaMedicaDAO nDao = new NotaMedicaDAOImpl();
+                panelActual = new VistaPacientePanel(usuarioActual, dDao, tDao, nDao);
                 break;
+
             case "administrador":
-                panelActual = new VistaAdministradorPanel();
+                panelActual = new VistaAdministradorPanel(); // Si tienes este panel
                 break;
+
             default:
                 JOptionPane.showMessageDialog(this, "Rol no reconocido: " + rol);
                 mostrarLogin();
