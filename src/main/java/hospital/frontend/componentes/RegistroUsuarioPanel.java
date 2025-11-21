@@ -51,28 +51,39 @@ public class RegistroUsuarioPanel extends JPanel {
     }
 
     private void registrarUsuario() {
-        String idUsuario = txtIdUsuario.getText().trim();
+        // 1. Obtener los datos desde los JTextField
+        String idText = txtIdUsuario.getText().trim();
         String nombre = txtNombre.getText().trim();
         String email = txtEmail.getText().trim();
         String tipo = txtTipo.getText().trim().toLowerCase();
         String contrasenaPlano = new String(txtContrasena.getPassword()).trim();
 
-        if (idUsuario.isEmpty() || nombre.isEmpty() || email.isEmpty() || tipo.isEmpty() || contrasenaPlano.isEmpty()) {
+        // 2. Validación: No permitir campos vacíos
+        if (idText.isEmpty() || nombre.isEmpty() || email.isEmpty() || tipo.isEmpty() || contrasenaPlano.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Todos los campos son obligatorios.");
             return;
         }
 
+        // 3. Validación: El tipo debe ser uno de los permitidos
         if (!(tipo.equals("medico") || tipo.equals("paciente") || tipo.equals("administrador"))) {
             JOptionPane.showMessageDialog(this, "El tipo debe ser 'medico', 'paciente' o 'administrador'.");
             return;
         }
 
-        // ======= CAMBIO IMPORTANTE: hashear la contraseña antes de crear el Usuario =======
+        // 4. Validación y conversión de id a entero
+        int idUsuario;
+        try {
+            idUsuario = Integer.parseInt(idText);
+        } catch (NumberFormatException ex) {
+            JOptionPane.showMessageDialog(this, "El ID debe ser un número entero.");
+            return;
+        }
+
+        // 5. (Opcional) Hashear la contraseña si usas SeguridadUtil
         String contrasenaHasheada = SeguridadUtil.hashPassword(contrasenaPlano);
 
+        // 6. Creación del nuevo Usuario y agregarlo
         Usuario nuevoUsuario = new Usuario(idUsuario, nombre, email, tipo, contrasenaHasheada);
-        // ==================================================================================
-
         usuarioService.agregarUsuario(nuevoUsuario);
 
         JOptionPane.showMessageDialog(this, "Usuario registrado exitosamente.");

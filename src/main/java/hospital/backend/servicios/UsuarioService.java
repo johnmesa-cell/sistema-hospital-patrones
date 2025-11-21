@@ -1,6 +1,5 @@
 package hospital.backend.servicios;
 
-import hospital.backend.servicios.UsuarioDAO;
 import hospital.backend.usuarios.Usuario;
 
 import java.util.List;
@@ -20,11 +19,11 @@ public class UsuarioService {
         usuarioDAO.actualizarUsuario(usuario);
     }
 
-    public void eliminarUsuario(String id) {
+    public void eliminarUsuario(int id) {
         usuarioDAO.eliminarUsuario(id);
     }
 
-    public Usuario buscarPorId(String id) {
+    public Usuario buscarPorId(int id) {
         return usuarioDAO.buscarPorId(id);
     }
 

@@ -6,8 +6,11 @@ import java.util.List;
 public interface UsuarioDAO {
     void agregarUsuario(Usuario usuario);
     void actualizarUsuario(Usuario usuario);
-    void eliminarUsuario(String id);
-    Usuario buscarPorId(String id);
+    void eliminarUsuario(int id);
+    Usuario buscarPorId(int id);
     Usuario buscarPorNombre(String nombre);
+
+    Usuario buscarPorEmail(String email);
+
     List<Usuario> listarUsuarios();
 }

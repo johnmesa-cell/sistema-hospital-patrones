@@ -26,13 +26,14 @@ public class VistaAdministradorPanel extends JPanel {
     private NotaMedicaDAO notaMedicaDAO;
 
     // Se recibe el UsuarioService desde VentanaPrincipal para no crear uno nuevo
-    public VistaAdministradorPanel(VentanaPrincipal ventanaPrincipal, Usuario usuarioActual, UsuarioService usuarioService) {
+    public VistaAdministradorPanel(VentanaPrincipal ventanaPrincipal, Usuario usuarioActual, UsuarioService usuarioService, DiagnosticoDAO diagnosticoDAO, TratamientoDAO tratamientoDAO, NotaMedicaDAO notaMedicaDAO) {
         this.ventanaPrincipal = ventanaPrincipal;
         this.usuarioActual = usuarioActual;
         this.usuarioService = usuarioService;
-        this.diagnosticoDAO = diagnosticoDAO;
-        this.tratamientoDAO = tratamientoDAO;
-        this.notaMedicaDAO = notaMedicaDAO;
+        this.diagnosticoDAO = diagnosticoDAO;    // ✅ Ahora recibe el valor correcto
+        this.tratamientoDAO = tratamientoDAO;    // ✅ Ahora recibe el valor correcto
+        this.notaMedicaDAO = notaMedicaDAO;      // ✅ Ahora recibe el valor correcto
+
         inicializarComponentes();
         cargarUsuarios();
     }
@@ -102,7 +103,7 @@ public class VistaAdministradorPanel extends JPanel {
             JOptionPane.showMessageDialog(this, "Seleccione un usuario para ver el historial.", "Aviso", JOptionPane.WARNING_MESSAGE);
             return;
         }
-        String idUsuario = (String) modeloUsuarios.getValueAt(filaSeleccionada, 0);
+        int idUsuario = (int) modeloUsuarios.getValueAt(filaSeleccionada, 0);
 
         // Abre el historial médico en una ventana
         JFrame parentFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
@@ -117,7 +118,8 @@ public class VistaAdministradorPanel extends JPanel {
     }
 
     private void gestionarUsuarios() {
-        JOptionPane.showMessageDialog(this, "Función para gestión de usuarios (pendiente implementar)");
+        GestionUsuariosDialog dialog = new GestionUsuariosDialog((JFrame)SwingUtilities.getWindowAncestor(this), usuarioService);
+        dialog.setVisible(true);
     }
 
     private void generarReporte() {

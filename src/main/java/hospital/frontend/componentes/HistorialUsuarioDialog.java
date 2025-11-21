@@ -12,7 +12,7 @@ import hospital.backend.servicios.TratamientoDAO;
 import hospital.backend.servicios.NotaMedicaDAO;
 
 public class HistorialUsuarioDialog extends JDialog {
-    public HistorialUsuarioDialog(JFrame parent, String idUsuario,
+    public HistorialUsuarioDialog(JFrame parent, int idUsuario,
                                   DiagnosticoDAO diagnosticoDAO,
                                   TratamientoDAO tratamientoDAO,
                                   NotaMedicaDAO notaMedicaDAO) {

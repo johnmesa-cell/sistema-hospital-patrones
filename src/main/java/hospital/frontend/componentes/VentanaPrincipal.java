@@ -85,7 +85,11 @@ public class VentanaPrincipal extends JFrame {
                 break;
 
             case "administrador":
-                panelActual = new VistaAdministradorPanel(this, usuarioActual, usuarioService); // Si tienes este panel
+                DiagnosticoDAO diagAdminDAO = new DiagnosticoDAOImpl();
+                TratamientoDAO tratAdminDAO = new TratamientoDAOImpl();
+                NotaMedicaDAO notaAdminDAO = new NotaMedicaDAOImpl();
+                panelActual = new VistaAdministradorPanel(this, usuarioActual, usuarioService,
+                        diagAdminDAO, tratAdminDAO, notaAdminDAO);
                 break;
 
             default:
