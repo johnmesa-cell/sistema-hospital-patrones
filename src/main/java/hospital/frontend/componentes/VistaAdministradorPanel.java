@@ -88,7 +88,7 @@ public class VistaAdministradorPanel extends JPanel {
         List<Usuario> usuarios = usuarioService.listarUsuarios();
         for (Usuario usuario : usuarios) {
             modeloUsuarios.addRow(new Object[]{
-                    usuario.getIdUsuario(), // Nombre y rol según getters
+                    usuario.getId_Usuario(), // Nombre y rol según getters
                     usuario.getNombre(),
                     usuario.getTipo() // Si tu clase Usuario no tiene getRol(), añade el método
             });

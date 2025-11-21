@@ -304,7 +304,7 @@ public class VistaMedicoPanel extends JPanel {
         c.setIdCita(id);
         c.setIdPaciente(pacienteId);
         if (medicoActual != null) {
-            c.setIdMedico(String.valueOf(medicoActual.getIdUsuario()));
+            c.setIdMedico(String.valueOf(medicoActual.getId_Usuario()));
         }
         c.setFechaHora(fechaHora);
         c.setEstado(estado);

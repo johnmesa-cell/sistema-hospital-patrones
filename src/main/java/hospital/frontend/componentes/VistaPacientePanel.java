@@ -114,7 +114,7 @@ public class VistaPacientePanel extends JPanel {
      */
     private void cargarDatosPaciente() {
         // Obtener la lista de diagnósticos asociados al paciente
-        List<Diagnostico> lDiagnosticos = diagnosticoDAO.listarDiagnosticosPorPaciente(String.valueOf(pacienteActual.getIdUsuario()));
+        List<Diagnostico> lDiagnosticos = diagnosticoDAO.listarDiagnosticosPorPaciente(String.valueOf(pacienteActual.getId_Usuario()));
         // Obtener el modelo de la tabla diagnósticos para añadir filas
         DefaultTableModel mDiagnosticos = (DefaultTableModel) tablaDiagnosticos.getModel();
 
@@ -148,7 +148,7 @@ public class VistaPacientePanel extends JPanel {
         DefaultTableModel mNotas = (DefaultTableModel) tablaNotas.getModel();
 
         // Obtener las notas médicas visibles para el paciente y añadirlas a la tabla notas
-        List<NotaMedica> lNotas = notaMedicaDAO.listarNotasPorPaciente(String.valueOf(pacienteActual.getIdUsuario()));
+        List<NotaMedica> lNotas = notaMedicaDAO.listarNotasPorPaciente(String.valueOf(pacienteActual.getId_Usuario()));
         for (NotaMedica n : lNotas) {
             if (n.isVisibleParaPaciente()) {
                 mNotas.addRow(new Object[]{

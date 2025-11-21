@@ -6,7 +6,7 @@ import java.awt.event.*;
 import hospital.backend.usuarios.Usuario;
 
 public class UsuarioFormDialog extends JDialog {
-    private JTextField txtIdUsuario, txtNombre, txtCorreo;
+    private JTextField txtId_Usuario, txtNombre, txtCorreo;
     private JComboBox<String> comboRol;
     private JButton btnGuardar, btnCancelar;
     private Usuario usuario; // Usuario que se va a crear o editar
@@ -26,8 +26,8 @@ public class UsuarioFormDialog extends JDialog {
         panelCampos.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
 
         panelCampos.add(new JLabel("ID:"));
-        txtIdUsuario = new JTextField();
-        panelCampos.add(txtIdUsuario);
+        txtId_Usuario = new JTextField();
+        panelCampos.add(txtId_Usuario);
 
         panelCampos.add(new JLabel("Nombre:"));
         txtNombre = new JTextField();
@@ -72,7 +72,7 @@ public class UsuarioFormDialog extends JDialog {
     }
 
     private void guardarUsuario() {
-        String idText = txtIdUsuario.getText().trim();
+        String idText = txtId_Usuario.getText().trim();
         String nombre = txtNombre.getText().trim();
         String correo = txtCorreo.getText().trim();
         String rol = (String) comboRol.getSelectedItem();
@@ -93,7 +93,7 @@ public class UsuarioFormDialog extends JDialog {
         if (usuario == null) {
             usuario = new Usuario();
         }
-        usuario.setIdUsuario(id); // aquí asignas el ID manualmente
+        usuario.setId_Usuario(id); // aquí asignas el ID manualmente
         usuario.setNombre(nombre);
         usuario.setEmail(correo);
         usuario.setTipo(rol);

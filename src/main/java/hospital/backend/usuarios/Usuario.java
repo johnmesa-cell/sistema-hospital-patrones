@@ -6,7 +6,7 @@ package hospital.backend.usuarios;
 
 
 public class Usuario {
-    private int idUsuario;
+    private int id_Usuario;
     private String nombre;
     private String email;
     private String tipo;
@@ -15,7 +15,7 @@ public class Usuario {
     public Usuario() {}
     
     public Usuario(int idUsuario, String nombre, String email, String tipo, String contraseña) {
-        this.idUsuario = idUsuario;
+        this.id_Usuario = idUsuario;
         this.nombre = nombre;
         this.email = email;
         this.tipo = tipo;
@@ -23,8 +23,9 @@ public class Usuario {
     }
     
     // Getters y Setters
-    public int getIdUsuario() { return idUsuario; }
-    public void setIdUsuario(int idUsuario) { this.idUsuario = idUsuario; }
+    public int getId_Usuario() {return id_Usuario;}
+
+    public void setId_Usuario(int idUsuario) { this.id_Usuario = idUsuario; }
     
     public String getNombre() { return nombre; }
     public void setNombre(String nombre) { this.nombre = nombre; }
@@ -42,4 +43,5 @@ public class Usuario {
     public String toString() {
         return nombre + " (" + tipo + ")";
     }
+
 }

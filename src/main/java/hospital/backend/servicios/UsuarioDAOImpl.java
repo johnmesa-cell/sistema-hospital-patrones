@@ -12,7 +12,7 @@ public class UsuarioDAOImpl implements UsuarioDAO {
         try (Connection conn = ConexionBD.getConexion();
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
-            ps.setInt(1, usuario.getIdUsuario());
+            ps.setInt(1, usuario.getId_Usuario());
             ps.setString(2, usuario.getNombre());
             ps.setString(3, usuario.getEmail());
             ps.setString(4, usuario.getTipo());
@@ -108,7 +108,7 @@ public class UsuarioDAOImpl implements UsuarioDAO {
             ps.setString(2, usuario.getEmail());
             ps.setString(3, usuario.getTipo());
             ps.setString(4, usuario.getContraseña());
-            ps.setInt(5, usuario.getIdUsuario());
+            ps.setInt(5, usuario.getId_Usuario());
             ps.executeUpdate();
             System.out.println("Usuario actualizado correctamente.");
         } catch (SQLException e) {

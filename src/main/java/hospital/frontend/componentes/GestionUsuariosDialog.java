@@ -61,7 +61,7 @@ public class GestionUsuariosDialog extends JDialog {
         modeloUsuarios.setRowCount(0); // Limpiar tabla
         List<Usuario> usuarios = usuarioService.listarUsuarios();
         for (Usuario u : usuarios) {
-            modeloUsuarios.addRow(new Object[]{u.getIdUsuario(), u.getNombre(), u.getEmail(), u.getTipo()});
+            modeloUsuarios.addRow(new Object[]{u.getId_Usuario(), u.getNombre(), u.getEmail(), u.getTipo()});
         }
     }
 
