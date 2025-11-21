@@ -20,6 +20,9 @@ public class VentanaPrincipal extends JFrame {
 
         // Inicialización servicios y DAO
         UsuarioDAO usuarioDAO = new UsuarioDAOImpl();
+        DiagnosticoDAO diagnosticoDAO = new DiagnosticoDAOImpl();
+        TratamientoDAO tratamientoDAO = new TratamientoDAOImpl();
+        NotaMedicaDAO notaMedicaDAO = new NotaMedicaDAOImpl();
         usuarioService = new UsuarioService(usuarioDAO);
         autenticacionService = new AutenticacionService(usuarioDAO);
 
@@ -78,11 +81,11 @@ public class VentanaPrincipal extends JFrame {
                 DiagnosticoDAO dDao = new DiagnosticoDAOImpl();
                 TratamientoDAO tDao = new TratamientoDAOImpl();
                 NotaMedicaDAO nDao = new NotaMedicaDAOImpl();
-                panelActual = new VistaPacientePanel(usuarioActual, dDao, tDao, nDao);
+                panelActual = new VistaPacientePanel(this,usuarioActual, dDao, tDao, nDao);
                 break;
 
             case "administrador":
-                panelActual = new VistaAdministradorPanel(); // Si tienes este panel
+                panelActual = new VistaAdministradorPanel(this, usuarioActual, usuarioService); // Si tienes este panel
                 break;
 
             default:
