@@ -30,7 +30,7 @@ public class HistorialUsuarioDialog extends JDialog {
         JTable tablaDiagnosticos = new JTable(modeloDiagnosticos);
         tabs.addTab("Diagnósticos", new JScrollPane(tablaDiagnosticos));
 
-        List<Diagnostico> diagnosticos = diagnosticoDAO.listarDiagnosticosPorPaciente(idUsuario);
+        List<Diagnostico> diagnosticos = diagnosticoDAO.listarDiagnosticosPorPaciente(String.valueOf(idUsuario));
         for (Diagnostico d : diagnosticos) {
             modeloDiagnosticos.addRow(new Object[]{
                     d.getIdDiagnostico(), d.getDescripcion(), d.getCodigoCIE10(), d.getEstado()
@@ -59,7 +59,7 @@ public class HistorialUsuarioDialog extends JDialog {
         JTable tablaNotas = new JTable(modeloNotas);
         tabs.addTab("Notas médicas", new JScrollPane(tablaNotas));
 
-        List<NotaMedica> notas = notaMedicaDAO.listarNotasPorPaciente(idUsuario);
+        List<NotaMedica> notas = notaMedicaDAO.listarNotasPorPaciente(String.valueOf(idUsuario));
         for (NotaMedica n : notas) {
             modeloNotas.addRow(new Object[]{
                     n.getTipoNota(), n.getContenidoPaciente(), n.getFechaCreacion()
