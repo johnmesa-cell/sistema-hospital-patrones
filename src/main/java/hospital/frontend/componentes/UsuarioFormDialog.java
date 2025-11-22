@@ -4,9 +4,11 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import hospital.backend.usuarios.Usuario;
+import hospital.backend.util.SeguridadUtil; // <-- igual que en RegistroUsuarioPanel
 
 public class UsuarioFormDialog extends JDialog {
     private JTextField txtId_Usuario, txtNombre, txtCorreo;
+    private JPasswordField txtContrasena;           // <-- nuevo campo contraseña
     private JComboBox<String> comboRol;
     private JButton btnGuardar, btnCancelar;
     private Usuario usuario; // Usuario que se va a crear o editar
@@ -17,12 +19,12 @@ public class UsuarioFormDialog extends JDialog {
         this.usuario = usuario;
         this.esEdicion = usuario != null;
 
-        setSize(400, 350);
+        setSize(400, 420);
         setLocationRelativeTo(parent);
         setLayout(new BorderLayout());
 
-        // Panel de campos
-        JPanel panelCampos = new JPanel(new GridLayout(4, 2, 10, 10));
+        // Panel de campos: 5 filas (ID, Nombre, Correo, Contraseña, Rol)
+        JPanel panelCampos = new JPanel(new GridLayout(5, 2, 10, 10));
         panelCampos.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
 
         panelCampos.add(new JLabel("ID:"));
@@ -37,8 +39,12 @@ public class UsuarioFormDialog extends JDialog {
         txtCorreo = new JTextField();
         panelCampos.add(txtCorreo);
 
+        panelCampos.add(new JLabel("Contraseña:"));      // <-- etiqueta contraseña
+        txtContrasena = new JPasswordField();            // <-- campo contraseña
+        panelCampos.add(txtContrasena);
+
         panelCampos.add(new JLabel("Rol:"));
-        comboRol = new JComboBox<>(new String[]{"Administrador", "Médico", "Enfermero"});
+        comboRol = new JComboBox<>(new String[]{"administrador", "medico", "paciente"});
         panelCampos.add(comboRol);
 
         add(panelCampos, BorderLayout.CENTER);
@@ -66,9 +72,12 @@ public class UsuarioFormDialog extends JDialog {
     }
 
     private void cargarDatosUsuario() {
+        txtId_Usuario.setText(String.valueOf(usuario.getId_Usuario()));
         txtNombre.setText(usuario.getNombre());
         txtCorreo.setText(usuario.getEmail());
         comboRol.setSelectedItem(usuario.getTipo());
+        // Por seguridad, no rellenamos la contraseña existente
+        txtContrasena.setText("");
     }
 
     private void guardarUsuario() {
@@ -76,8 +85,9 @@ public class UsuarioFormDialog extends JDialog {
         String nombre = txtNombre.getText().trim();
         String correo = txtCorreo.getText().trim();
         String rol = (String) comboRol.getSelectedItem();
+        String contrasenaPlano = new String(txtContrasena.getPassword()).trim(); // igual que en RegistroUsuarioPanel
 
-        if (idText.isEmpty() || nombre.isEmpty() || correo.isEmpty() || rol == null) {
+        if (idText.isEmpty() || nombre.isEmpty() || correo.isEmpty() || rol == null || contrasenaPlano.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Por favor, complete todos los campos.", "Validación", JOptionPane.WARNING_MESSAGE);
             return;
         }
@@ -90,13 +100,17 @@ public class UsuarioFormDialog extends JDialog {
             return;
         }
 
+        // Aplicar el mismo hash que en RegistroUsuarioPanel
+        String contrasenaHasheada = SeguridadUtil.hashPassword(contrasenaPlano);
+
         if (usuario == null) {
             usuario = new Usuario();
         }
-        usuario.setId_Usuario(id); // aquí asignas el ID manualmente
+        usuario.setId_Usuario(id);
         usuario.setNombre(nombre);
         usuario.setEmail(correo);
-        usuario.setTipo(rol);
+        usuario.setTipo(rol.toLowerCase());
+        usuario.setContraseña(contrasenaHasheada); // aquí ya va hasheada, igual que en el panel de registro
 
         dispose();
     }

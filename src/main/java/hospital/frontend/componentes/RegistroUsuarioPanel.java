@@ -9,7 +9,7 @@ import java.awt.*;
 
 public class RegistroUsuarioPanel extends JPanel {
 
-    private JTextField txtIdUsuario, txtNombre, txtEmail, txtTipo;
+    private JTextField txtId_Usuario, txtNombre, txtEmail, txtTipo;
     private JPasswordField txtContrasena;
     private JButton btnRegistrar, btnVolver;
     private UsuarioService usuarioService;
@@ -22,8 +22,8 @@ public class RegistroUsuarioPanel extends JPanel {
         setLayout(new GridLayout(6, 2, 10, 10));
 
         add(new JLabel("ID usuario:"));
-        txtIdUsuario = new JTextField();
-        add(txtIdUsuario);
+        txtId_Usuario = new JTextField();
+        add(txtId_Usuario);
 
         add(new JLabel("Nombre:"));
         txtNombre = new JTextField();
@@ -33,7 +33,7 @@ public class RegistroUsuarioPanel extends JPanel {
         txtEmail = new JTextField();
         add(txtEmail);
 
-        add(new JLabel("Tipo (medico, paciente, administrador):"));
+        add(new JLabel("Tipo (medico, paciente):"));
         txtTipo = new JTextField();
         add(txtTipo);
 
@@ -52,7 +52,7 @@ public class RegistroUsuarioPanel extends JPanel {
 
     private void registrarUsuario() {
         // 1. Obtener los datos desde los JTextField
-        String idText = txtIdUsuario.getText().trim();
+        String idText = txtId_Usuario.getText().trim();
         String nombre = txtNombre.getText().trim();
         String email = txtEmail.getText().trim();
         String tipo = txtTipo.getText().trim().toLowerCase();
@@ -71,9 +71,9 @@ public class RegistroUsuarioPanel extends JPanel {
         }
 
         // 4. Validación y conversión de id a entero
-        int idUsuario;
+        int id_Usuario;
         try {
-            idUsuario = Integer.parseInt(idText);
+            id_Usuario = Integer.parseInt(idText);
         } catch (NumberFormatException ex) {
             JOptionPane.showMessageDialog(this, "El ID debe ser un número entero.");
             return;
@@ -83,7 +83,7 @@ public class RegistroUsuarioPanel extends JPanel {
         String contrasenaHasheada = SeguridadUtil.hashPassword(contrasenaPlano);
 
         // 6. Creación del nuevo Usuario y agregarlo
-        Usuario nuevoUsuario = new Usuario(idUsuario, nombre, email, tipo, contrasenaHasheada);
+        Usuario nuevoUsuario = new Usuario(id_Usuario, nombre, email, tipo, contrasenaHasheada);
         usuarioService.agregarUsuario(nuevoUsuario);
 
         JOptionPane.showMessageDialog(this, "Usuario registrado exitosamente.");
@@ -92,7 +92,7 @@ public class RegistroUsuarioPanel extends JPanel {
     }
 
     private void limpiarCampos() {
-        txtIdUsuario.setText("");
+        txtId_Usuario.setText("");
         txtNombre.setText("");
         txtEmail.setText("");
         txtTipo.setText("");

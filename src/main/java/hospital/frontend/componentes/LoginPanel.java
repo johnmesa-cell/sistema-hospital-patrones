@@ -9,7 +9,7 @@ import java.awt.*;
 public class LoginPanel extends JPanel {
 
     private JTextField txtUsuario;
-    private JPasswordField txtContrasena;
+    private JPasswordField txtContraseña;
     private JButton btnIngresar;
     private JButton btnRegistrar;
 
@@ -28,8 +28,8 @@ public class LoginPanel extends JPanel {
         add(txtUsuario);
 
         add(new JLabel("Contraseña:"));
-        txtContrasena = new JPasswordField();
-        add(txtContrasena);
+        txtContraseña = new JPasswordField();
+        add(txtContraseña);
 
         btnIngresar = new JButton("Ingresar");
         btnRegistrar = new JButton("Registrarse");
@@ -50,15 +50,15 @@ public class LoginPanel extends JPanel {
      */
     private void autenticar() {
         String nombreUsuario = txtUsuario.getText().trim();
-        String contrasena = new String(txtContrasena.getPassword()).trim();
+        String contraseña = new String(txtContraseña.getPassword()).trim();
 
-        if (nombreUsuario.isEmpty() || contrasena.isEmpty()) {
+        if (nombreUsuario.isEmpty() || contraseña.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Debe ingresar usuario y contraseña.");
             return;
         }
 
         // Aquí NO hacemos hash; lo hace AutenticacionService por dentro.
-        Usuario usuarioAutenticado = autenticacionService.autenticar(nombreUsuario, contrasena);
+        Usuario usuarioAutenticado = autenticacionService.autenticar(nombreUsuario, contraseña);
 
         if (usuarioAutenticado != null) {
             JOptionPane.showMessageDialog(this, "Login exitoso.");

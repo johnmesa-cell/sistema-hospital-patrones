@@ -8,7 +8,7 @@ import java.util.List;
 public class UsuarioDAOImpl implements UsuarioDAO {
     @Override
     public void agregarUsuario(Usuario usuario) {
-        String sql = "INSERT INTO usuario (idusuario, nombre, email, tipo, contrasena) VALUES (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO usuario (id_usuario, nombre, email, tipo, contraseña) VALUES (?, ?, ?, ?, ?)";
         try (Connection conn = ConexionBD.getConexion();
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
@@ -39,7 +39,7 @@ public class UsuarioDAOImpl implements UsuarioDAO {
                         rs.getString("nombre"),
                         rs.getString("email"),
                         rs.getString("tipo"),
-                        rs.getString("contrasena")
+                        rs.getString("contraseña")
                 );
             }
             rs.close();
@@ -64,7 +64,7 @@ public class UsuarioDAOImpl implements UsuarioDAO {
                         rs.getString("nombre"),
                         rs.getString("email"),
                         rs.getString("tipo"),
-                        rs.getString("contrasena")
+                        rs.getString("contraseña")
                 );
             }
             rs.close();
@@ -87,7 +87,7 @@ public class UsuarioDAOImpl implements UsuarioDAO {
                         rs.getString("nombre"),
                         rs.getString("email"),
                         rs.getString("tipo"),
-                        rs.getString("contrasena")
+                        rs.getString("contraseña")
                 );
                 lista.add(user);
             }
@@ -100,7 +100,7 @@ public class UsuarioDAOImpl implements UsuarioDAO {
 
     @Override
     public void actualizarUsuario(Usuario usuario) {
-        String sql = "UPDATE usuario SET nombre=?, email=?, tipo=?, contrasena=? WHERE idusuario=?";
+        String sql = "UPDATE usuario SET nombre=?, email=?, tipo=?, contraseña=? WHERE id_usuario=?";
         try (Connection conn = ConexionBD.getConexion();
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
@@ -118,7 +118,7 @@ public class UsuarioDAOImpl implements UsuarioDAO {
 
     @Override
     public void eliminarUsuario(int idUsuario) {
-        String sql = "DELETE FROM usuario WHERE idusuario=?";
+        String sql = "DELETE FROM usuario WHERE id_usuario=?";
         try (Connection conn = ConexionBD.getConexion();
              PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, idUsuario);
