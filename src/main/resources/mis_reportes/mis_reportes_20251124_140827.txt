@@ -1,0 +1,9 @@
+Reporte de Usuarios
+
+ID: 1085264789, Nombre: Juan Gómez, Rol: paciente
+ID: 10866341, Nombre: Administrador SGCI, Rol: administrador
+ID: 10882686, Nombre: Dra. Ana López, Rol: medico
+ID: 1092837465, Nombre: María Rodríguez, Rol: paciente
+ID: 11142515, Nombre: claudia, Rol: administrador
+ID: 420284, Nombre: Dr. Carlos Pérez, Rol: medico
+

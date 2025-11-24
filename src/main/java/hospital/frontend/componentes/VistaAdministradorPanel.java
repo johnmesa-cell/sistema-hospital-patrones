@@ -3,16 +3,13 @@ package hospital.frontend.componentes;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
-import java.awt.event.*;
 import java.util.List;
-
 import hospital.backend.servicios.DiagnosticoDAO;
 import hospital.backend.servicios.NotaMedicaDAO;
 import hospital.backend.servicios.TratamientoDAO;
 import hospital.backend.usuarios.Usuario;
 import hospital.backend.servicios.UsuarioService;
 
-// Panel de administrador centralizado para gestión de historiales y usuarios
 public class VistaAdministradorPanel extends JPanel {
 
     private VentanaPrincipal ventanaPrincipal;
@@ -25,14 +22,14 @@ public class VistaAdministradorPanel extends JPanel {
     private TratamientoDAO tratamientoDAO;
     private NotaMedicaDAO notaMedicaDAO;
 
-    // Se recibe el UsuarioService desde VentanaPrincipal para no crear uno nuevo
-    public VistaAdministradorPanel(VentanaPrincipal ventanaPrincipal, Usuario usuarioActual, UsuarioService usuarioService, DiagnosticoDAO diagnosticoDAO, TratamientoDAO tratamientoDAO, NotaMedicaDAO notaMedicaDAO) {
+    public VistaAdministradorPanel(VentanaPrincipal ventanaPrincipal, Usuario usuarioActual, UsuarioService usuarioService,
+                                   DiagnosticoDAO diagnosticoDAO, TratamientoDAO tratamientoDAO, NotaMedicaDAO notaMedicaDAO) {
         this.ventanaPrincipal = ventanaPrincipal;
         this.usuarioActual = usuarioActual;
         this.usuarioService = usuarioService;
-        this.diagnosticoDAO = diagnosticoDAO;    // ✅ Ahora recibe el valor correcto
-        this.tratamientoDAO = tratamientoDAO;    // ✅ Ahora recibe el valor correcto
-        this.notaMedicaDAO = notaMedicaDAO;      // ✅ Ahora recibe el valor correcto
+        this.diagnosticoDAO = diagnosticoDAO;
+        this.tratamientoDAO = tratamientoDAO;
+        this.notaMedicaDAO = notaMedicaDAO;
 
         inicializarComponentes();
         cargarUsuarios();
@@ -75,27 +72,25 @@ public class VistaAdministradorPanel extends JPanel {
         btnGestionUsuarios.addActionListener(e -> gestionarUsuarios());
         panelBotones.add(btnGestionUsuarios);
 
+        // Nuevo: Botón que llama a un dialog para generar el reporte
         JButton btnGenerarReporte = new JButton("Generar Reporte");
-        btnGenerarReporte.addActionListener(e -> generarReporte());
+        btnGenerarReporte.addActionListener(e -> abrirVentanaGenerarReporte());
         panelBotones.add(btnGenerarReporte);
 
         add(panelBotones, BorderLayout.SOUTH);
     }
 
-    // Cargar todos los usuarios usando el método real disponible en UsuarioService
     private void cargarUsuarios() {
         modeloUsuarios.setRowCount(0);
         List<Usuario> usuarios = usuarioService.listarUsuarios();
         for (Usuario usuario : usuarios) {
             modeloUsuarios.addRow(new Object[]{
-                    usuario.getId_Usuario(), // Nombre y rol según getters
+                    usuario.getId_Usuario(),
                     usuario.getNombre(),
-                    usuario.getTipo() // Si tu clase Usuario no tiene getRol(), añade el método
+                    usuario.getTipo()
             });
         }
     }
-
-// Asegúrate de pasar los DAOs al constructor y guardar las referencias
 
     private void verHistorialUsuario() {
         int filaSeleccionada = tablaUsuarios.getSelectedRow();
@@ -104,8 +99,6 @@ public class VistaAdministradorPanel extends JPanel {
             return;
         }
         int idUsuario = (int) modeloUsuarios.getValueAt(filaSeleccionada, 0);
-
-        // Abre el historial médico en una ventana
         JFrame parentFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
         HistorialUsuarioDialog dialog = new HistorialUsuarioDialog(
                 parentFrame,
@@ -118,17 +111,20 @@ public class VistaAdministradorPanel extends JPanel {
     }
 
     private void gestionarUsuarios() {
-        GestionUsuariosDialog dialog = new GestionUsuariosDialog((JFrame)SwingUtilities.getWindowAncestor(this), usuarioService);
+        GestionUsuariosDialog dialog = new GestionUsuariosDialog((JFrame) SwingUtilities.getWindowAncestor(this), usuarioService);
         dialog.setVisible(true);
     }
 
-    private void generarReporte() {
-        JOptionPane.showMessageDialog(this, "Función para generación de reportes (pendiente implementar)");
+    // Aquí simplemente invoca la ventana/interface encargada del reporte
+    private void abrirVentanaGenerarReporte() {
+        GenerarReporteDialog reporteDialog = new GenerarReporteDialog((JFrame) SwingUtilities.getWindowAncestor(this), usuarioService);
+        reporteDialog.setVisible(true);
     }
 
-    // Botón cerrar sesión funcional
     private void cerrarSesion() {
         ventanaPrincipal.mostrarLogin();
     }
 }
+
+
 
