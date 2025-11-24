@@ -45,7 +45,7 @@ El proyecto implementa **8 patrones de diseño** distribuidos en tres categoría
 
 ## 📁 Estructura del Proyecto
 
-![img.png](img.png)
+![img.png](Documentacion/img.png)
 
 
 ## 🚀 Instalación y Configuración
@@ -69,19 +69,19 @@ El proyecto implementa **8 patrones de diseño** distribuidos en tres categoría
 
 5. **Ejecutar la aplicación**
 
-## 👥 Equipo de Desarrollo - Grupo 6
+## 👥 Equipo de Desarrollo
 
-- **Camila**
-- **Miguel Ángel**
+- **John Mesa**
+- **Juan José Restrepo Londoño**
 
-**Responsabilidad**: Gestión de Historiales Médicos - Creación, consulta y actualización de diagnósticos, tratamientos y notas por cada paciente [2].
+**Responsabilidad**: Gestión de Historiales Médicos - Creación, consulta y actualización de diagnósticos, tratamientos y notas por cada paciente.
 
 ## 🔐 Seguridad y Cumplimiento
 
-- Implementación de roles y permisos basados en necesidad del puesto [2]
-- Cifrado de datos sensibles [2]
-- Cumplimiento con **Ley 1581 de Protección de Datos Personales en Colombia** [2]
-- Sistema de auditoría mediante patrón Command [1]
+- Implementación de roles y permisos basados en necesidad del puesto
+- Cifrado de datos sensibles
+- Cumplimiento con **Ley 1581 de Protección de Datos Personales en Colombia** 
+- Sistema de auditoría mediante patrón Command 
 
 ## 📊 Casos de Uso
 
